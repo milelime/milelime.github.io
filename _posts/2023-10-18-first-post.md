@@ -1,3 +1,7 @@
+---
+title: "Welcome to My Blog"
+---
+
 # Welcome to my blog
 
 ## What is this going to be about?
