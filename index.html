@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <title>Your Name's Portfolio</title>
 </head>
 <body>
@@ -28,11 +29,31 @@
         })
       })
     </script>
-    {% for post in site.posts %}
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      <p>{{ post.excerpt }}</p>
-    {% endfor %}
+    <div id="blogPosts"></div>
+    <script>
+    window.onload = function() {
+      const repoName = '<milelime.github.io>';  // e.g., 'username.github.io'
+      const userName = '<milelime>'; 
 
+      // Fetch the list of files in the 'posts' directory from your repo
+      fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/posts`)
+        .then(response => response.json())
+        .then(data => {
+          // Filter out files that aren't markdown (just to be safe)
+          const mdFiles = data.filter(file => file.name.endsWith('.md'));
+
+          // Process each markdown file
+          mdFiles.forEach(file => {
+            fetch(file.download_url)
+              .then(response => response.text())
+              .then(text => {
+                const postContent = marked(text);
+                 document.getElementById('blogPosts').innerHTML += `<div class="post">${postContent}</div>`;
+              });
+          });
+        });
+    }
+    </script>
 </body>
 </html>
 
