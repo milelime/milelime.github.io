@@ -2,15 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
-    <title>Alexey's Portfolio</title>
+    <title>Alexey Ayzin's Portfolio</title>
   </head>
+
   <body>
     <header>
       <h1>Hello! I'm Alexey Ayzin</h1>
@@ -25,6 +21,7 @@
         >LinkedIn</a
       >
     </header>
+
     <div id="projects"></div>
     <script>
       fetch("https://api.github.com/users/milelime/repos")
@@ -44,56 +41,19 @@
 
     <!-- Blog Posts -->
     <div id="blogPosts"></div>
+
+    <!-- Pagination Controls -->
     <div id="pagination"></div>
 
     <script>
       window.onload = function () {
         const repoName = "milelime.github.io";
         const userName = "milelime";
-        const POSTS_PER_PAGE = 3;
+        const postsPerPage = 3;
         let currentPage = 1;
 
-        // Create a Showdown converter
         const converter = new showdown.Converter();
 
-        function displayPosts(posts) {
-          const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-          const selectedPosts = posts.slice(
-            startIndex,
-            startIndex + POSTS_PER_PAGE,
-          );
-
-          const blogPostsDiv = document.getElementById("blogPosts");
-          blogPostsDiv.innerHTML = ""; // Clear previous posts
-
-          selectedPosts.forEach((post) => {
-            fetch(post.download_url)
-              .then((response) => response.text())
-              .then((text) => {
-                const postContent = converter.makeHtml(text);
-                blogPostsDiv.innerHTML += `<div class="post">${postContent}</div>`;
-              });
-          });
-
-          // Add Pagination controls
-          const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-          const paginationDiv = document.getElementById("pagination");
-          paginationDiv.innerHTML = ""; // Clear previous pagination controls
-
-          for (let i = 1; i <= totalPages; i++) {
-            const pageLink = document.createElement("a");
-            pageLink.href = "#";
-            pageLink.innerText = i;
-            pageLink.addEventListener("click", (e) => {
-              e.preventDefault();
-              currentPage = i;
-              displayPosts(posts);
-            });
-            paginationDiv.appendChild(pageLink);
-          }
-        }
-
-        // Fetch the list of files in the 'posts' directory from your repo
         fetch(
           `https://api.github.com/repos/${userName}/${repoName}/contents/posts`,
         )
@@ -101,9 +61,44 @@
           .then((data) => {
             const mdFiles = data
               .filter((file) => file.name.endsWith(".md"))
-              .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently edited
+              // Sort by filename in descending order (latest post first)
+              .sort((a, b) => b.name.localeCompare(a.name));
 
-            displayPosts(mdFiles);
+            function displayPage(page) {
+              const start = (page - 1) * postsPerPage;
+              const end = start + postsPerPage;
+
+              const filesToShow = mdFiles.slice(start, end);
+              const blogPostsDiv = document.getElementById("blogPosts");
+              blogPostsDiv.innerHTML = "";
+
+              filesToShow.forEach((file) => {
+                fetch(file.download_url)
+                  .then((response) => response.text())
+                  .then((text) => {
+                    const postContent = converter.makeHtml(text);
+                    blogPostsDiv.innerHTML += `<div class="post">${postContent}</div>`;
+                  });
+              });
+
+              const paginationDiv = document.getElementById("pagination");
+              paginationDiv.innerHTML = "";
+
+              for (
+                let i = 1;
+                i <= Math.ceil(mdFiles.length / postsPerPage);
+                i++
+              ) {
+                paginationDiv.innerHTML += `<a href="#" onclick="changePage(${i})">${i}</a>`;
+              }
+            }
+
+            window.changePage = function (page) {
+              currentPage = page;
+              displayPage(currentPage);
+            };
+
+            displayPage(currentPage);
           });
       };
     </script>

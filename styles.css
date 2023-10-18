@@ -64,6 +64,7 @@ a:hover {
   padding-bottom: 10px;
 }
 
+/* Pagination styles */
 #pagination {
   text-align: center;
   margin-top: 20px;
@@ -82,4 +83,9 @@ a:hover {
 
 #pagination a:hover {
   background-color: #ddd;
+}
+
+#pagination .current-page {
+  background-color: #ddd;
+  pointer-events: none;
 }
