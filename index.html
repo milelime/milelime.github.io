@@ -1,70 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
     <title>Alexey's Portfolio</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Hello! I'm Alexey Ayzin</h1>
-        <p>Welcome to my portfolio. I'm a software developer from New York.</p>
-        <a href="https://drive.google.com/file/d/1W-tMH-LoVj-enlI1f2_xARccMT3yJo26/view?usp=share_link" target="_blank">Resume</a> |
-        <a href="https://www.linkedin.com/in/alexeyayzin/" target="_blank">LinkedIn</a>
+      <h1>Hello! I'm Alexey Ayzin</h1>
+      <p>Welcome to my portfolio. I'm a software developer from New York.</p>
+      <a
+        href="https://drive.google.com/file/d/1W-tMH-LoVj-enlI1f2_xARccMT3yJo26/view?usp=share_link"
+        target="_blank"
+        >Resume</a
+      >
+      |
+      <a href="https://www.linkedin.com/in/alexeyayzin/" target="_blank"
+        >LinkedIn</a
+      >
     </header>
     <div id="projects"></div>
     <script>
-    fetch('https://api.github.com/users/milelime/repos')
-      .then(response => response.json())
-      .then(data => {
-        let selectedProjects = data.slice(0, 5);
-        let projectsDiv = document.getElementById('projects');
+      fetch("https://api.github.com/users/milelime/repos")
+        .then((response) => response.json())
+        .then((data) => {
+          let selectedProjects = data.slice(0, 5);
+          let projectsDiv = document.getElementById("projects");
 
-        selectedProjects.forEach(project => {
-          projectsDiv.innerHTML += `<div>
+          selectedProjects.forEach((project) => {
+            projectsDiv.innerHTML += `<div>
             <h3><a href=${project.html_url} target="_blank">${project.name}</a></h3>
             <p>${project.description}</p>
           </div>`;
-        })
-      })
+          });
+        });
     </script>
 
-  <!-- Blog Posts -->
-  <div id="blogPosts"></div>
+    <!-- Blog Posts -->
+    <div id="blogPosts"></div>
 
-  <script>
-  window.onload = function() {
-    const repoName = 'milelime.github.io';
-    const userName = 'milelime';
+    <script>
+      window.onload = function () {
+        const repoName = "milelime.github.io";
+        const userName = "milelime";
 
-    // Create a Showdown converter
-    const converter = new showdown.Converter();
+        // Create a Showdown converter
+        const converter = new showdown.Converter();
 
-    // Fetch the list of files in the 'posts' directory from your repo
-    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/posts`)
-        .then(response => response.json())
-        .then(data => {
+        // Fetch the list of files in the 'posts' directory from your repo
+        fetch(
+          `https://api.github.com/repos/${userName}/${repoName}/contents/posts`,
+        )
+          .then((response) => response.json())
+          .then((data) => {
             // Filter out files that aren't markdown (just to be safe)
-            const mdFiles = data.filter(file => file.name.endsWith('.md'));
+            const mdFiles = data.filter((file) => file.name.endsWith(".md"));
 
             // Process each markdown file
-            mdFiles.forEach(file => {
-                fetch(file.download_url)
-                    .then(response => response.text())
-                    .then(text => {
-                        // Convert markdown text to HTML using Showdown
-                        const postContent = converter.makeHtml(text);
-                        document.getElementById('blogPosts').innerHTML += `<div class="post">${postContent}</div>`;
-                    });
+            mdFiles.forEach((file) => {
+              fetch(file.download_url)
+                .then((response) => response.text())
+                .then((text) => {
+                  // Convert markdown text to HTML using Showdown
+                  const postContent = converter.makeHtml(text);
+                  document.getElementById(
+                    "blogPosts",
+                  ).innerHTML += `<div class="post">${postContent}</div>`;
+                });
             });
-        });
-}
-
-  </script>
-
-</body>
+          });
+      };
+    </script>
+  </body>
 </html>
-
