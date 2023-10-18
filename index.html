@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>milelime Github</title>
-  <link rel="stylesheet" href="./css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name's Portfolio</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Hello, world!</h1>
-    <script src="./js/script.js"></script>
-  </div>
+    <header>
+        <h1>Hello! I'm [Your Name]</h1>
+        <p>Welcome to my portfolio. I'm a passionate developer... [your intro here]</p>
+        <a href="https://drive.google.com/file/d/1W-tMH-LoVj-enlI1f2_xARccMT3yJo26/view?usp=share_link" target="_blank">Resume</a> |
+        <a href="https://www.linkedin.com/in/alexeyayzin/" target="_blank">LinkedIn</a>
+    </header>
+    <div id="projects"></div>
+    <script>
+    fetch('https://api.github.com/users/milelime/repos')
+      .then(response => response.json())
+      .then(data => {
+        let selectedProjects = data.slice(0, 5);
+        let projectsDiv = document.getElementById('projects');
+
+        selectedProjects.forEach(project => {
+          projectsDiv.innerHTML += `<div>
+            <h3><a href=${project.html_url}" target="_blank">${project.name}</a></h3>
+            <p>${project.description}</p>
+          </div>`;
+        })
+      })
+    </script>
 </body>
 </html>
+
