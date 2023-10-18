@@ -36,7 +36,7 @@
       const userName = 'milelime'; 
 
       // Fetch the list of files in the 'posts' directory from your repo
-      fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/posts`)
+      fetch(`https://api.github.com/repos/${userName}/${repoName}/posts`)
         .then(response => response.json())
         .then(data => {
           // Filter out files that aren't markdown (just to be safe)
