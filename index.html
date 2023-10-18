@@ -44,14 +44,37 @@
 
     <!-- Blog Posts -->
     <div id="blogPosts"></div>
+    <div id="paginationControls"></div>
 
     <script>
       window.onload = function () {
         const repoName = "milelime.github.io";
         const userName = "milelime";
+        const POSTS_PER_PAGE = 3;
+        let currentPage = 1;
 
         // Create a Showdown converter
         const converter = new showdown.Converter();
+
+        function displayPosts(posts) {
+          const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+          const selectedPosts = posts.slice(
+            startIndex,
+            startIndex + POSTS_PER_PAGE,
+          );
+
+          const blogPostsDiv = document.getElementById("blogPosts");
+          blogPostsDiv.innerHTML = ""; // Clear previous posts
+
+          selectedPosts.forEach((post) => {
+            fetch(post.download_url)
+              .then((response) => response.text())
+              .then((text) => {
+                const postContent = converter.makeHtml(text);
+                blogPostsDiv.innerHTML += `<div class="post">${postContent}</div>`;
+              });
+          });
+        }
 
         // Fetch the list of files in the 'posts' directory from your repo
         fetch(
@@ -59,21 +82,31 @@
         )
           .then((response) => response.json())
           .then((data) => {
-            // Filter out files that aren't markdown (just to be safe)
-            const mdFiles = data.filter((file) => file.name.endsWith(".md"));
+            const mdFiles = data
+              .filter((file) => file.name.endsWith(".md"))
+              .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently edited
 
-            // Process each markdown file
-            mdFiles.forEach((file) => {
-              fetch(file.download_url)
-                .then((response) => response.text())
-                .then((text) => {
-                  // Convert markdown text to HTML using Showdown
-                  const postContent = converter.makeHtml(text);
-                  document.getElementById(
-                    "blogPosts",
-                  ).innerHTML += `<div class="post">${postContent}</div>`;
-                });
-            });
+            displayPosts(mdFiles);
+
+            // Pagination controls
+            const totalPages = Math.ceil(mdFiles.length / POSTS_PER_PAGE);
+            const paginationDiv = document.createElement("div");
+            paginationDiv.className = "pagination";
+
+            for (let i = 1; i <= totalPages; i++) {
+              const pageLink = document.createElement("a");
+              pageLink.href = "#";
+              pageLink.innerText = i;
+              pageLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                currentPage = i;
+                displayPosts(mdFiles);
+              });
+
+              paginationDiv.appendChild(pageLink);
+            }
+
+            document.body.appendChild(paginationDiv);
           });
       };
     </script>
