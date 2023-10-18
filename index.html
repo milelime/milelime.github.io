@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
     <title>Your Name's Portfolio</title>
 </head>
 <body>
@@ -34,28 +34,33 @@
   <div id="blogPosts"></div>
 
   <script>
-      window.onload = function() {
-          const repoName = 'milelime.github.io';
-          const userName = 'milelime';
+  window.onload = function() {
+    const repoName = 'milelime.github.io';
+    const userName = 'milelime';
 
-          // Fetch the list of files in the 'posts' directory from your repo
-          fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/posts`)
-              .then(response => response.json())
-              .then(data => {
-                  // Filter out files that aren't markdown (just to be safe)
-                  const mdFiles = data.filter(file => file.name.endsWith('.md'));
+    // Create a Showdown converter
+    const converter = new showdown.Converter();
 
-                  // Process each markdown file
-                  mdFiles.forEach(file => {
-                      fetch(file.download_url)
-                          .then(response => response.text())
-                          .then(text => {
-                              const postContent = marked(text);
-                              document.getElementById('blogPosts').innerHTML += `<div class="post">${postContent}</div>`;
-                          });
-                  });
-              });
-      }
+    // Fetch the list of files in the 'posts' directory from your repo
+    fetch(`https://api.github.com/repos/${userName}/${repoName}/contents/posts`)
+        .then(response => response.json())
+        .then(data => {
+            // Filter out files that aren't markdown (just to be safe)
+            const mdFiles = data.filter(file => file.name.endsWith('.md'));
+
+            // Process each markdown file
+            mdFiles.forEach(file => {
+                fetch(file.download_url)
+                    .then(response => response.text())
+                    .then(text => {
+                        // Convert markdown text to HTML using Showdown
+                        const postContent = converter.makeHtml(text);
+                        document.getElementById('blogPosts').innerHTML += `<div class="post">${postContent}</div>`;
+                    });
+            });
+        });
+}
+
   </script>
 
 </body>
