@@ -1,62 +1,65 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
 }
 
 header a {
-    color: #ff7f00;
-    margin: 0 10px;
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom 0.3s;
+  color: #ff7f00;
+  margin: 0 10px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.3s;
 }
 
 header a:hover {
-    border-bottom: 2px solid #ff7f00;
+  border-bottom: 2px solid #ff7f00;
 }
 
-h1, h3 {
-    margin-top: 0;
+h1,
+h3 {
+  margin-top: 0;
 }
 
-#projects, #blogPosts {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+#projects,
+#blogPosts {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-#projects div, .post {
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+#projects div,
+.post {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 }
 
 a {
-    color: #ff7f00;
-    text-decoration: none;
-    transition: color 0.3s;
+  color: #ff7f00;
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 a:hover {
-    color: #e66f00;
+  color: #e66f00;
 }
 
-.post h1, .post h2, .post h3 {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+.post h1,
+.post h2,
+.post h3 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
-
-
