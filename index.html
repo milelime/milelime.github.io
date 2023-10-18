@@ -44,7 +44,7 @@
 
     <!-- Blog Posts -->
     <div id="blogPosts"></div>
-    <div id="paginationControls"></div>
+    <div id="pagination"></div>
 
     <script>
       window.onload = function () {
@@ -74,6 +74,23 @@
                 blogPostsDiv.innerHTML += `<div class="post">${postContent}</div>`;
               });
           });
+
+          // Add Pagination controls
+          const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+          const paginationDiv = document.getElementById("pagination");
+          paginationDiv.innerHTML = ""; // Clear previous pagination controls
+
+          for (let i = 1; i <= totalPages; i++) {
+            const pageLink = document.createElement("a");
+            pageLink.href = "#";
+            pageLink.innerText = i;
+            pageLink.addEventListener("click", (e) => {
+              e.preventDefault();
+              currentPage = i;
+              displayPosts(posts);
+            });
+            paginationDiv.appendChild(pageLink);
+          }
         }
 
         // Fetch the list of files in the 'posts' directory from your repo
@@ -87,26 +104,6 @@
               .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently edited
 
             displayPosts(mdFiles);
-
-            // Pagination controls
-            const totalPages = Math.ceil(mdFiles.length / POSTS_PER_PAGE);
-            const paginationDiv = document.createElement("div");
-            paginationDiv.className = "pagination";
-
-            for (let i = 1; i <= totalPages; i++) {
-              const pageLink = document.createElement("a");
-              pageLink.href = "#";
-              pageLink.innerText = i;
-              pageLink.addEventListener("click", (e) => {
-                e.preventDefault();
-                currentPage = i;
-                displayPosts(mdFiles);
-              });
-
-              paginationDiv.appendChild(pageLink);
-            }
-
-            document.body.appendChild(paginationDiv);
           });
       };
     </script>
