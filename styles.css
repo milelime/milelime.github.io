@@ -2,7 +2,7 @@ body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: black;
   color: #333;
   line-height: 1.6;
 }
@@ -15,7 +15,7 @@ header {
 }
 
 header a {
-  color: #ff7f00;
+  color: green;
   margin: 0 10px;
   text-decoration: none;
   border-bottom: 2px solid transparent;
@@ -23,7 +23,7 @@ header a {
 }
 
 header a:hover {
-  border-bottom: 2px solid #ff7f00;
+  border-bottom: 2px solid darkcyan;
 }
 
 h1,
@@ -40,7 +40,8 @@ h3 {
 
 #projects div,
 .post {
-  background-color: #fff;
+  background-color: #333;
+  color: whitesmoke;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
@@ -48,13 +49,13 @@ h3 {
 }
 
 a {
-  color: #ff7f00;
+  color: green;
   text-decoration: none;
   transition: color 0.3s;
 }
 
 a:hover {
-  color: #e66f00;
+  color: darkcyan;
 }
 
 .post h1,
