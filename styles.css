@@ -8,6 +8,12 @@ body {
   min-width: 1010px;
 }
 
+body h1 {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 header {
   background-color: #333;
   color: #fff;
