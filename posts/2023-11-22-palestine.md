@@ -1,3 +1,5 @@
+# Palestine Must Be Free
+
 While I did not intend to use this blog as a means to express personal views beyond software development and programming, I realized I wanted to consolidate the work I do on Substack and other mediums into one.
 
 Israel's occupation of Gaza, the West Bank, and the Golan Heights is brutal and the recent developments clarify the Israeli position: it will ethnically cleanse and genocide the Palestinian occupants and repopulate the lands with settler colonists.
