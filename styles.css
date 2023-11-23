@@ -7,7 +7,7 @@ body {
   line-height: 1.6;
 }
 
-.blog-header {
+#blog-header {
   color: white;
   text-align: center;
   text-transform: uppercase;
